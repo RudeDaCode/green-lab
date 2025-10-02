@@ -1,10 +1,32 @@
 # Lab 3: R with Positron (Exercises)
 
-## Section 1: Data loading and inspection
+## Setup
 
-## Section 2: Visual exploration via plotting
+1.	Open Positron and create a new Project for this lab.
+2.	Install the required packages if they are not yet installed: `tidyverse`, `ggplot2`, `bestNormalize`, `ARTool`, `lmerTest`, and `xtable`.
+3.	Load the packages into the R session with the `library()` function.
+4.	Make sure the dataset `Run_Table_TPCH.csv` is located in the directory `data/`.
 
-## Section 3: Data normality and normalization
+## Section 1: Data Loading and Inspection
+
+1.	Load the dataset `Run_Table_TPCH.csv` into R.
+2.	Keep only the four required columns: *library*, *dataframe_size*, *trial*, and *energy_usage*.
+3.	Convert *library*, *dataframe_size*, and *trial* into factor variables.
+4.	Inspect the structure of the dataset with functions such as `glimpse()`, `summary()`, and `head()` to confirm that the data is properly loaded and formatted.
+
+## Section 2: Visual Exploration via Plotting
+
+1.	Create a histogram of *energy_usage* to inspect its overall distribution and assess whether it appears normal.
+2.	Create boxplots of *energy_usage* grouped by *library* and *dataframe_size* to compare distributions across experimental conditions.
+3.	Create scatterplots of *energy_usage* across trials. Assign different colors to the combinations of *library* and *dataframe_size* (i.e., the “experiments”), and include a legend to distinguish them.
+
+## Section 3: Data Normality and Normalization
+
+1.	For each combination of *library* and *dataframe_size*, run a Shapiro–Wilk normality test on *energy_usage*.
+2.	Normalize the *energy_usage* column using the `bestNormalize` package. Add the normalized values as a new column in the dataset.
+3.	Plot the normalized data to visually compare it with the original distribution.
+4.	Repeat the Shapiro–Wilk tests on the normalized values to check whether normality has improved.
+5.	Evaluate the results and decide whether parametric tests are suitable after normalization.
 
 ## Section 4: (Non-)Parametric Tests
 
