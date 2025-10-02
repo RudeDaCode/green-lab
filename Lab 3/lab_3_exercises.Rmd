@@ -1,7 +1,5 @@
 # Lab 3: R with Positron (Exercises)
 
-## Section 0: Setup
-
 ## Section 1: Data loading and inspection
 
 ## Section 2: Visual exploration via plotting
@@ -18,8 +16,9 @@
 ## Section 5: Summary Plots
 
 1.  Create a boxplot to visualize the distribution of *energy_usage* for each "experiment". Use `facet_wrap()` to adequately separate the experiments by library or dataframe size.
-2.  Create a scatter plot (`geom_point()`) to show how energy_usage varies over trial. Assign a unique color to each ”experiment” and add a legend.
-3.  Using *faceting*, create a grid with 4 scatter plots (one per "experiment") showing how *energy_usage* correlates to *execution_time*, also including trend lines.
+2.  Label the x-axis as ”Dataframe Size” and the y-axis as ”Energy Usage”
+3.  Create a scatter plot (`geom_point()`) to show how energy_usage varies over trial. Assign a unique color to each ”experiment” and add a legend.
+4.  Using *faceting*, create a grid with 4 scatter plots (one per "experiment") showing how *energy_usage* correlates to *execution_time*, also including trend lines.
 
 ## Section 6: Annotated Tables
 

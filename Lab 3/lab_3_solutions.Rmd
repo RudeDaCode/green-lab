@@ -1,8 +1,4 @@
 # Lab 3: R with Positron (Solutions)
-  
-
-
-## Section 0: Setup
 
 ## Section 1: Data loading and inspection
 
@@ -12,6 +8,128 @@
 
 ## Section 4: (Non-)Parametric Tests
 
+### 4.1
+
+```{r, results='hide', message=FALSE}
+pandas_small = dat_data[dat_data$dataframe_size == 'Small' & dat_data$library == 'Pandas',]$energy_usage
+polars_small = dat_data[dat_data$dataframe_size == 'Small' & dat_data$library == 'Polars',]$energy_usage
+wilcox.test(pandas_small, polars_small)
+
+pandas_big = dat_data[dat_data$dataframe_size == 'Big' & dat_data$library == 'Pandas',]$energy_usage
+polars_big = dat_data[dat_data$dataframe_size == 'Big' & dat_data$library == 'Polars',]$energy_usage
+wilcox.test(pandas_big, polars_big)
+```
+
+We shall use Wilcoxon test; it's non-parametric and we can't use a parametric test as our data is not normal.
+
+### 4.2
+
+```{r, results='hide', message=FALSE}
+library(ARTool)
+
+model = art(energy_usage ~ library * dataframe_size + Error(trial), data = dat_data)
+anova(model)
+```
+
+-   To check if model is correct we simpy run command `summary(model)` and investigate whether all F-values are 0.
+
+-   `anova(model)` shows us information about influence of each variable and their interactions.
+
+### 4.3
+
+```{r, results='hide', message=FALSE}
+library(lmerTest)
+model = lmer(norm_energy_usage ~ library * dataframe_size + (1|trial), data = dat_data)
+anova(model)
+```
+
+### 4.4
+
+```{r}
+qqnorm(resid(model))
+qqline(resid(model))
+shapiro.test(resid(model))
+```
+
+We can see residuals are not normal, which might be the result that our data doesn't meet the conditional normality assumption, even though it's distribution with no regard to factors looks normal.
+
 ## Section 5: Summary Plots
 
+### 5.1 & 5.2
+
+```{r}
+
+p_boxplot <- ggplot(df, aes(x = dataframe_size, y = energy_usage, fill = library)) +
+  geom_boxplot() +
+  facet_wrap(~library) +
+  theme_minimal() +
+  labs(
+    title = "Energy Usage by Library and Dataframe Size",
+    x = "Dataframe Size",
+    y = "Energy Usage",
+    fill = "Library"
+    ) +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    strip.background = element_rect(fill = "lightgray"),
+    strip.text = element_text(face = "bold")
+    )
+
+p_boxplot
+```
+
+### 5.3
+
+```{r}
+ggplot(df, aes(x = trial, y=energy_usage, color = interaction(library,dataframe_size))) +
+  geom_point(alpha = 0.75) +
+  labs(
+    title = "Energy Usage by Experiment Trial",
+    x = "Trial",
+    y = "Energy Usage",
+    color = "Experiment"
+  )
+```
+
+### 5.4
+
+```{r}
+
+ggplot(df, aes(x = execution_time, y = energy_usage)) +
+  geom_point(alpha = 0.75) +
+  geom_smooth(method = "lm", se = TRUE) +
+  facet_grid(library ~ dataframe_size) +
+  labs(
+    title = "Energy Usage by Execution Time",
+    x = "Execution Time",
+    y = "Energy Usage"
+  )
+```
+
 ## Section 6: Annotated Tables
+
+```{r}
+# Load required libraries
+library(xtable)
+library(dplyr)
+
+# Create summary statistics
+summary_stats <- df %>%
+  group_by(library, dataframe_size) %>%
+  summarise(
+    cpu_avg = mean(cpu_usage),
+    memory_avg = mean(memory_usage),
+    energy_avg = mean(energy_usage),
+    .groups = 'drop'
+  )
+
+# Create and format the xtable
+summary_table <- xtable(summary_stats,
+                       caption = "Summary Statistics by Library and DataFrame Size",
+                       digits = c(0, 0, 0, 2, 2, 2))
+
+# Print the table (you can adjust the type of output as needed)
+print(summary_table, 
+      include.rownames = TRUE,
+      floating = FALSE)
+```
