@@ -18,7 +18,7 @@ library(xtable)
 ```{r}
 # setwd("path/to/GREEN-LAB/Lab 3")
 dat_data <- read.csv("data/Run_Table_TPCH.csv") %>%
-  select(library, dataframe_size, trial, energy_usage) %>%
+  select(library, dataframe_size, trial, energy_usage, execution_time, cpu_usage, memory_usage) %>%
   mutate(
     library = factor(library),
     dataframe_size = factor(dataframe_size),
@@ -195,7 +195,7 @@ We can see residuals are not normal, which might be the result that our data doe
 ### 5.1 & 5.2
 
 ```{r}
-p_boxplot <- ggplot(df, aes(x = dataframe_size, y = energy_usage, fill = library)) +
+p_boxplot <- ggplot(dat_data, aes(x = dataframe_size, y = energy_usage, fill = library)) +
   geom_boxplot() +
   facet_wrap(~library) +
   theme_minimal() +
@@ -217,7 +217,7 @@ p_boxplot
 ### 5.3
 
 ```{r}
-ggplot(df, aes(x = trial, y=energy_usage, color = interaction(library,dataframe_size))) +
+ggplot(dat_data, aes(x = trial, y=energy_usage, color = interaction(library,dataframe_size))) +
   geom_point(alpha = 0.75) +
   labs(
     title = "Energy Usage by Experiment Trial",
@@ -231,7 +231,7 @@ ggplot(df, aes(x = trial, y=energy_usage, color = interaction(library,dataframe_
 
 ```{r}
 
-ggplot(df, aes(x = execution_time, y = energy_usage)) +
+ggplot(dat_data, aes(x = execution_time, y = energy_usage)) +
   geom_point(alpha = 0.75) +
   geom_smooth(method = "lm", se = TRUE) +
   facet_grid(library ~ dataframe_size) +
@@ -250,7 +250,7 @@ library(xtable)
 library(dplyr)
 
 # Create summary statistics
-summary_stats <- df %>%
+summary_stats <- dat_data %>%
   group_by(library, dataframe_size) %>%
   summarise(
     cpu_avg = mean(cpu_usage),
