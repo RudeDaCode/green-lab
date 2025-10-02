@@ -1,0 +1,17 @@
+# Lab 3: R with Positron (Exercises)
+  
+
+
+## Section 0: Setup
+
+## Section 1: Data loading and inspection
+
+## Section 2: Visual exploration via plotting
+
+## Section 3: Data normality and normalization
+
+## Section 4: (Non-)Parametric Tests
+
+## Section 5: Summary Plots
+
+## Section 6: Annotated Tables
