@@ -60,13 +60,13 @@ energibridge --summary -o cpu_test.csv -m 5 sha1sum /dev/zero
 * **Memory-bound workload**:
 
 ```bash
-energibridge --summary -o mem_test.csv -m 5 python -c "a = [0]*10**7"
+energibridge --summary -o mem_test.csv -m 5 python -c "a = [0]*10**10"
 ```
 
 * **Disk I/O workload**:
 
 ```bash
-energibridge --summary -o io_test.csv dd if=/dev/zero of=testfile bs=1M count=500
+energibridge --summary -o io_test.csv dd if=/dev/zero of=testfile bs=1M count=50000
 ```
 
 ### Discussion Points

@@ -1,2 +1,2 @@
-# green-lab
-Online material for the Green Lab at VU Amsterdam
+# GreenLab
+Online material for the Green Lab course at VU Amsterdam
